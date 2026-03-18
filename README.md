@@ -1,5 +1,7 @@
 # Korean Language Learning App 🇰🇷
 
+* This app requires basic Korean language knowledge such as Hangul and basic grammar!
+
 A lightweight, interactive desktop application built with Python and Tkinter designed to help users study and master the Korean language. 
 
 This project moves beyond simple flashcards by incorporating dynamic multiple-choice quizzes, targeted grammar practice, and an adaptive system that tracks and re-tests difficult vocabulary.

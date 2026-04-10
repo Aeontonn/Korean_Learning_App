@@ -32,6 +32,7 @@ class UserStats:
         self.word_correct_streak = {}   # word -> consecutive correct count (for auto-mastery)
         self.word_last_seen = {}        # word -> "YYYY-MM-DD" (for SRS)
         self.word_intervals = {}        # word -> days until next review (for SRS)
+        self.practice_dates = set()     # ISO date strings of days the user practised
 
     def load_stats(self):
         """Load stats from local file"""
@@ -47,6 +48,7 @@ class UserStats:
                     self.word_correct_streak = data.get("word_correct_streak", {})
                     self.word_last_seen = data.get("word_last_seen", {})
                     self.word_intervals = data.get("word_intervals", {})
+                    self.practice_dates = set(data.get("practice_dates", []))
             except json.JSONDecodeError:
                 print("Warning: user_data.json is corrupted. Starting with fresh stats.")
                 self._reset_stats()
@@ -65,6 +67,7 @@ class UserStats:
             "word_correct_streak": self.word_correct_streak,
             "word_last_seen": self.word_last_seen,
             "word_intervals": self.word_intervals,
+            "practice_dates": list(self.practice_dates),
         }
         try:
             with open(self.data_file, 'w', encoding='utf-8') as f:
@@ -76,6 +79,7 @@ class UserStats:
         """Record a correct answer. Handles auto-mastery and SRS scheduling."""
         self.correct += 1
         self.streak += 1
+        self.practice_dates.add(date.today().isoformat())
 
         if word_korean:
             # Clear from difficult list — they got it right
@@ -100,6 +104,7 @@ class UserStats:
         """Record an incorrect answer. Resets streak and SRS interval."""
         self.incorrect += 1
         self.streak = 0
+        self.practice_dates.add(date.today().isoformat())
 
         if word_korean:
             # Add to difficult words

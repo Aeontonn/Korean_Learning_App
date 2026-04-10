@@ -192,4 +192,42 @@ block content %}
     </div>
   {% endif %}
 </div>
+
+<!-- Streak Calendar -->
+<div class="bg-slate-800 border border-slate-700/50 rounded-2xl p-6 mt-6">
+  <div class="flex items-center justify-between mb-4">
+    <div class="text-white font-semibold text-lg">Practice Streak</div>
+    <div class="text-sm" style="color:#b8a898;">Last 14 weeks</div>
+  </div>
+  <!-- Day labels (Mon–Sun, rotated to match columns) -->
+  <div class="flex gap-1 mb-1" style="padding-left:0px;">
+    {% for day in ['M','T','W','T','F','S','S'] %}
+    <div style="width:14px; flex-shrink:0; font-size:9px; color:#8a7a6a; text-align:center;">{{ day }}</div>
+    {% endfor %}
+  </div>
+  <!-- Grid: outer = weeks (columns), inner = days (rows) -->
+  <div class="flex gap-1">
+    {% for week in calendar %}
+    <div class="flex flex-col gap-1">
+      {% for cell in week %}
+      <div class="rounded-sm" title="{{ cell.label }}{% if cell.practiced %} ✓{% endif %}"
+        style="width:14px; height:14px; flex-shrink:0;
+          background-color: {% if cell.is_future %}#1e1e1e{% elif cell.practiced %}#D4AA7D{% else %}#2e2e2e{% endif %};
+          {% if cell.is_today %}outline: 1px solid rgba(212,170,125,0.6);{% endif %}">
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="flex items-center gap-3 mt-3">
+    <div class="flex items-center gap-1">
+      <div class="rounded-sm" style="width:12px;height:12px;background-color:#2e2e2e;"></div>
+      <span style="font-size:11px;color:#8a7a6a;">No practice</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <div class="rounded-sm" style="width:12px;height:12px;background-color:#D4AA7D;"></div>
+      <span style="font-size:11px;color:#8a7a6a;">Practised</span>
+    </div>
+  </div>
+</div>
 {% endblock %}

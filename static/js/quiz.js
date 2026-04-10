@@ -1,3 +1,16 @@
+// Keyboard shortcuts: 1/2/3/4 select answer, Enter advances to next question
+document.addEventListener('keydown', function(e) {
+    const num = parseInt(e.key);
+    if (num >= 1 && num <= 4) {
+        const btns = document.querySelectorAll('.btn-choice:not(:disabled)');
+        if (btns[num - 1]) btns[num - 1].click();
+    }
+    if (e.key === 'Enter') {
+        const nextBtn = document.getElementById('next-btn');
+        if (nextBtn && !nextBtn.classList.contains('hidden')) nextBtn.click();
+    }
+});
+
 async function submitAnswer(btn, choice) {
     // Disable all buttons immediately
     document.querySelectorAll('.btn-choice').forEach(b => b.disabled = true);

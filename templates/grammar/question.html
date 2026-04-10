@@ -1,64 +1,67 @@
-{% extends "base.html" %} {% block title %}Grammar — Question {{ index + 1 }}{%
-endblock %} {% block content %}
+{% extends "base.html" %}
+{% block title %}Grammar — Question {{ index + 1 }}{% endblock %}
+{% block content %}
 <div class="max-w-xl mx-auto">
-  <!-- Header -->
-  <div class="flex items-center justify-between mb-8">
-    <a
-      href="/"
-      class="text-slate-400 hover:text-white text-sm transition-colors"
-      >← Menu</a
-    >
-    <span class="text-slate-400 text-sm">{{ index + 1 }} / {{ total }}</span>
-  </div>
 
-  <!-- Progress bar -->
-  <div class="w-full bg-slate-800 rounded-full h-1.5 mb-8">
-    <div
-      class="bg-accent h-1.5 rounded-full"
-      style="width: {{ (index / total * 100)|round }}%"
-    ></div>
-  </div>
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+        <a href="/" class="text-slate-400 hover:text-white text-sm transition-colors">← Menu</a>
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-semibold px-2 py-1 rounded-full capitalize"
+                  style="background-color:rgba(212,170,125,0.15); color:#D4AA7D; border:1px solid rgba(212,170,125,0.3);">
+                {{ difficulty }}
+            </span>
+            <span class="text-slate-400 text-sm">{{ index + 1 }} / {{ total }}</span>
+        </div>
+    </div>
 
-  <!-- Hint badge -->
-  <div
-    class="inline-block bg-accent/10 border border-accent/30 text-accent/80 text-sm px-3 py-1 rounded-full mb-5"
-  >
-    💡 {{ pattern.explanation }}
-  </div>
+    <!-- Progress bar -->
+    <div class="w-full rounded-full h-1.5 mb-8" style="background-color:#1e1e1e;">
+        <div class="h-1.5 rounded-full transition-all" style="width: {{ (index / total * 100)|round }}%; background-color:#D4AA7D;"></div>
+    </div>
 
-  <!-- Example sentence -->
-  <div
-    class="bg-slate-800 border border-slate-700/50 rounded-2xl p-8 mb-4 text-center"
-  >
-    <div class="text-3xl font-bold text-white mb-4">{{ pattern.example }}</div>
-    <div class="text-slate-400 text-sm italic">{{ pattern.translation }}</div>
-  </div>
+    <!-- Hint badge -->
+    <div class="inline-block text-sm px-3 py-1 rounded-full mb-5"
+         style="background-color:rgba(212,170,125,0.1); border:1px solid rgba(212,170,125,0.3); color:#D4AA7D;">
+        💡 {{ pattern.explanation }}
+    </div>
 
-  <!-- Feedback -->
-  <div id="feedback" class="hidden text-center font-semibold mb-4"></div>
+    <!-- Example sentence -->
+    <div class="rounded-2xl p-8 mb-4 text-center" style="background-color:#333333; border:1px solid rgba(74,74,74,0.5);">
+        <div class="text-3xl font-bold text-white mb-4">{{ pattern.example }}</div>
+        <div class="text-sm italic" style="color:#b8a898;">{{ pattern.translation }}</div>
+    </div>
 
-  <!-- Input area -->
-  <div class="flex gap-3">
-    <input
-      id="answer-input"
-      type="text"
-      placeholder="Type your answer…"
-      class="flex-1 bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-accent transition-colors"
-      onkeydown="if (event.key === 'Enter') handleSubmit();"
-    />
-    <button
-      id="action-btn"
-      onclick="handleSubmit()"
-      class="bg-accent hover:bg-accent-hover text-white font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
-    >
-      Submit
-    </button>
-  </div>
+    <!-- What to fill in hint -->
+    <p class="text-center text-sm mb-4" style="color:#8a7a6a;">
+        Type what goes in the blank ( ___ ) and press Enter or Submit
+    </p>
 
-  <div class="text-slate-500 text-xs mt-3 text-center">
-    Score: {{ score }} / {{ total }}
-  </div>
+    <!-- Feedback -->
+    <div id="feedback" class="hidden text-center font-semibold mb-4"></div>
+
+    <!-- Input area -->
+    <div class="flex gap-3">
+        <input id="answer-input" type="text"
+            placeholder="Type your answer…"
+            class="flex-1 text-white text-lg rounded-xl px-4 py-3 focus:outline-none transition-colors"
+            style="background-color:#333333; border:1px solid #4a4a4a; color:#f0ebe3;"
+            onfocus="this.style.borderColor='#D4AA7D'"
+            onblur="this.style.borderColor='#4a4a4a'">
+        <button id="action-btn" onclick="handleSubmit()"
+            class="font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
+            style="background-color:#D4AA7D; color:#1a1a1a;">
+            Submit
+        </button>
+    </div>
+
+    <div class="text-center mt-3" style="color:#8a7a6a; font-size:12px;">
+        Score: {{ score }} / {{ total }}
+    </div>
+
 </div>
-{% endblock %} {% block scripts %}
+{% endblock %}
+
+{% block scripts %}
 <script src="/static/js/grammar.js"></script>
 {% endblock %}

@@ -10,19 +10,35 @@
     </div>
 
     <!-- Flip Card -->
-    <div class="card-scene mb-8" style="height: 320px;">
+    <div class="card-scene mb-5" style="height: 320px;">
         <div id="flip-card" class="flip-card w-full h-full cursor-pointer" onclick="flipCard()">
             <!-- Front: Korean -->
             <div class="flip-card__face bg-slate-800 border border-slate-700/50 shadow-2xl">
                 <div id="korean-text" class="text-5xl font-bold text-white text-center px-8">{{ word.korean }}</div>
                 <div class="text-slate-500 text-sm mt-6">Click to reveal translation</div>
             </div>
-            <!-- Back: English -->
-            <div class="flip-card__face flip-card__face--back shadow-2xl" style="background-color:rgba(55,42,25,0.85); border:1px solid rgba(212,170,125,0.35);">
-                <div id="english-text" class="text-3xl font-semibold text-center px-8" style="color:#e8d4b8;">{{ word.english }}</div>
-                <div class="text-sm mt-6" style="color:rgba(212,170,125,0.6);">{{ word.category }}</div>
+            <!-- Back: English + example -->
+            <div class="flip-card__face flip-card__face--back shadow-2xl px-8 py-6" style="background-color:rgba(55,42,25,0.85); border:1px solid rgba(212,170,125,0.35);">
+                <div id="english-text" class="text-3xl font-semibold text-center" style="color:#e8d4b8;">{{ word.english }}</div>
+                <div id="category-text" class="text-sm mt-3 text-center" style="color:rgba(212,170,125,0.6);">{{ word.category }}</div>
+                {% if word.example %}
+                <div id="example-text" class="text-sm mt-5 text-center italic leading-relaxed" style="color:rgba(240,235,227,0.7);">{{ word.example }}</div>
+                {% else %}
+                <div id="example-text" class="text-sm mt-5 text-center italic leading-relaxed" style="color:rgba(240,235,227,0.7);"></div>
+                {% endif %}
             </div>
         </div>
+    </div>
+
+    <!-- I already know this button -->
+    <div class="flex justify-center mb-4">
+        <button id="skip-btn" onclick="skipWord()"
+            class="text-sm px-4 py-2 rounded-lg border transition-all"
+            style="border-color:rgba(212,170,125,0.3); color:#D4AA7D; background:transparent;"
+            onmouseover="this.style.backgroundColor='rgba(212,170,125,0.1)'"
+            onmouseout="this.style.backgroundColor='transparent'">
+            ✓ I already know this
+        </button>
     </div>
 
     <!-- Nav buttons -->
@@ -44,7 +60,7 @@
         <div class="bg-slate-800 border border-slate-700 rounded-2xl p-10 text-center max-w-sm mx-4">
             <div class="text-5xl mb-4">🎉</div>
             <h2 class="text-2xl font-bold text-white mb-2">Stack Complete!</h2>
-            <p class="text-slate-400 mb-6">You've gone through all {{ total }} cards.</p>
+            <p class="text-slate-400 mb-6">You've gone through all the cards.</p>
             <a href="/flashcards" class="block font-semibold py-3 rounded-xl transition-colors"
                style="background-color:#D4AA7D; color:#1a1a1a;">Back to Setup</a>
         </div>
@@ -62,6 +78,16 @@ function flipCard() {
     document.getElementById('flip-card').classList.toggle('flipped', isFlipped);
 }
 
+function applyCardData(data) {
+    document.getElementById('korean-text').textContent = data.korean;
+    document.getElementById('english-text').textContent = data.english;
+    document.getElementById('category-text').textContent = data.category || '';
+    document.getElementById('example-text').textContent = data.example || '';
+    document.getElementById('progress-text').textContent = `Card ${data.index + 1} / ${data.total}`;
+    document.getElementById('prev-btn').disabled = data.index === 0;
+    document.getElementById('next-btn').textContent = data.is_last ? 'Finish ✓' : 'Next →';
+}
+
 async function navigate(direction) {
     if (direction === 'next' && document.getElementById('next-btn').textContent.includes('Finish')) {
         document.getElementById('complete-overlay').classList.remove('hidden');
@@ -74,29 +100,46 @@ async function navigate(direction) {
     });
     const data = await res.json();
 
-    // Update progress and buttons straight away
+    // Update nav immediately
     document.getElementById('progress-text').textContent = `Card ${data.index + 1} / ${data.total}`;
     document.getElementById('prev-btn').disabled = data.index === 0;
     document.getElementById('next-btn').textContent = data.is_last ? 'Finish ✓' : 'Next →';
 
     const card = document.getElementById('flip-card');
-
-    const applyNewCard = () => {
-        document.getElementById('korean-text').textContent = data.korean;
-        document.getElementById('english-text').textContent = data.english;
-    };
-
     if (isFlipped) {
-        // Card is showing English — flip back first, swap text only after animation ends
         card.classList.remove('flipped');
         isFlipped = false;
         card.addEventListener('transitionend', function handler() {
             card.removeEventListener('transitionend', handler);
-            applyNewCard();
+            applyCardData(data);
         });
     } else {
-        // Card is already showing Korean — safe to update immediately
-        applyNewCard();
+        applyCardData(data);
+    }
+}
+
+async function skipWord() {
+    const res = await fetch('/flashcards/skip', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+    });
+    const data = await res.json();
+
+    if (data.done) {
+        document.getElementById('complete-overlay').classList.remove('hidden');
+        return;
+    }
+
+    const card = document.getElementById('flip-card');
+    if (isFlipped) {
+        card.classList.remove('flipped');
+        isFlipped = false;
+        card.addEventListener('transitionend', function handler() {
+            card.removeEventListener('transitionend', handler);
+            applyCardData(data);
+        });
+    } else {
+        applyCardData(data);
     }
 }
 </script>

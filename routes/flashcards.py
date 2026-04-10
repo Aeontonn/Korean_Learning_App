@@ -60,6 +60,39 @@ def navigate():
     return jsonify(
         korean=word.get("korean", ""),
         english=word.get("english", ""),
+        example=word.get("example", ""),
+        category=word.get("category", ""),
+        index=index,
+        total=len(keys),
+        is_last=(index == len(keys) - 1)
+    )
+
+@flashcards_bp.route("/skip", methods=["POST"])
+def skip():
+    """Mark current word as mastered and advance to the next card."""
+    keys = session.get("fc_keys", [])
+    index = session.get("fc_index", 0)
+    all_words = {w["korean"]: w for w in current_app.vocab_data.get_all_words()}
+
+    if keys and index < len(keys):
+        current_app.user_stats.mark_mastered(keys[index])
+        keys.pop(index)
+        session["fc_keys"] = keys
+        # Stay at same index (now points to next word), clamp if at end
+        if index >= len(keys):
+            index = max(0, len(keys) - 1)
+        session["fc_index"] = index
+
+    if not keys:
+        return jsonify(done=True)
+
+    word = all_words.get(keys[index], {})
+    return jsonify(
+        done=False,
+        korean=word.get("korean", ""),
+        english=word.get("english", ""),
+        example=word.get("example", ""),
+        category=word.get("category", ""),
         index=index,
         total=len(keys),
         is_last=(index == len(keys) - 1)

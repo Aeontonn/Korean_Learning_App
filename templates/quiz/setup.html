@@ -59,6 +59,15 @@ content %}
         <div class="text-slate-400 text-sm">All words across every level</div>
       </div>
     </label>
+    <div class="pt-2">
+      <label class="block text-slate-400 text-sm font-medium mb-2">Focus on category (optional)</label>
+      <select name="category" class="bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-3 w-full">
+        <option value="all">All categories</option>
+        {% for cat in categories %}
+        <option value="{{ cat }}">{{ cat | capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
     <button
       type="submit"
       class="w-full bg-accent hover:bg-accent-hover text-white font-semibold py-4 rounded-2xl transition-colors mt-6 text-lg"

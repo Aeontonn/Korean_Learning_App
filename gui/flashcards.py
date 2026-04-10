@@ -8,8 +8,8 @@ class FlashcardMode:
         self.app = app
         self.difficulty = difficulty
         
-        # Get and shuffle words
-        words = self.app.vocabulary_data.get_words(difficulty).copy()
+        # Get and shuffle words — cumulative so intermediate includes basic, etc.
+        words = self.app.vocabulary_data.get_words_cumulative(difficulty).copy()
         random.shuffle(words)
         
         self.flashcards = words

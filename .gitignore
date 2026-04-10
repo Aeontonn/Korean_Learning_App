@@ -1,0 +1,14 @@
+# Personal notes & internal task tracking
+TODO.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# User data
+user_data.json
+
+# OS
+.DS_Store
+Thumbs.db

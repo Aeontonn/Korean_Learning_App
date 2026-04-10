@@ -88,9 +88,20 @@ class VocabularyData:
         }
     
     def get_words(self, difficulty):
-        """Get all words for a specific difficulty level"""
+        """Get words for a specific difficulty level only"""
         return self.vocabulary.get(difficulty, [])
-    
+
+    def get_words_cumulative(self, difficulty):
+        """Get words for a difficulty level cumulatively.
+        Intermediate includes basic. Advanced includes everything.
+        This keeps flashcards and quiz consistent with each other."""
+        if difficulty == "advanced":
+            return self.get_all_words()
+        elif difficulty == "intermediate":
+            return self.get_words("basic") + self.get_words("intermediate")
+        else:
+            return self.get_words("basic")
+
     def get_all_words(self):
         """Get all words from all difficulty levels"""
         all_words = []

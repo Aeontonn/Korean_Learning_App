@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block title %}Review Queue{% endblock %} {% block
+content %}
+<div class="max-w-2xl mx-auto">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-white">📋 Review</h1>
+      <p class="text-slate-400 mt-1">
+        {{ total }} word{{ 's' if total != 1 }} need attention
+      </p>
+    </div>
+    <form action="/review/start_practice" method="POST">
+      <button
+        type="submit"
+        class="bg-accent hover:bg-accent-hover text-white font-semibold px-5 py-3 rounded-xl transition-colors"
+      >
+        Start Practice Quiz →
+      </button>
+    </form>
+  </div>
+
+  {% if due_words %}
+  <div class="mb-8">
+    <h2
+      class="text-amber-400 font-semibold text-sm uppercase tracking-wider mb-3"
+    >
+      Due for SRS Review
+    </h2>
+    <div class="space-y-2">
+      {% for word in due_words %}
+      <div
+        class="bg-amber-900/20 border border-amber-600/30 rounded-xl px-5 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-4">
+          <span class="text-white font-bold text-lg">{{ word.korean }}</span>
+          <span class="text-slate-400">{{ word.english }}</span>
+        </div>
+        <span class="text-amber-400 text-sm font-medium">
+          {% if word.days_overdue == 0 %}due today{% else %}{{ word.days_overdue
+          }}d overdue{% endif %}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %} {% if review_words %}
+  <div>
+    <h2
+      class="text-red-400 font-semibold text-sm uppercase tracking-wider mb-3"
+    >
+      Words You've Missed
+    </h2>
+    <div class="space-y-2">
+      {% for word in review_words %}
+      <div
+        class="bg-red-900/10 border border-red-700/30 rounded-xl px-5 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-4">
+          <span class="text-white font-bold text-lg">{{ word.korean }}</span>
+          <span class="text-slate-400">{{ word.english }}</span>
+        </div>
+        <span class="text-red-400 text-sm font-medium"
+          >{{ word.errors }} mistake{{ 's' if word.errors != 1 }}</span
+        >
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %} {% block title %}Grammar — Question {{ index + 1 }}{%
+endblock %} {% block content %}
+<div class="max-w-xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <a
+      href="/"
+      class="text-slate-400 hover:text-white text-sm transition-colors"
+      >← Menu</a
+    >
+    <span class="text-slate-400 text-sm">{{ index + 1 }} / {{ total }}</span>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="w-full bg-slate-800 rounded-full h-1.5 mb-8">
+    <div
+      class="bg-accent h-1.5 rounded-full"
+      style="width: {{ (index / total * 100)|round }}%"
+    ></div>
+  </div>
+
+  <!-- Hint badge -->
+  <div
+    class="inline-block bg-accent/10 border border-accent/30 text-accent/80 text-sm px-3 py-1 rounded-full mb-5"
+  >
+    💡 {{ pattern.explanation }}
+  </div>
+
+  <!-- Example sentence -->
+  <div
+    class="bg-slate-800 border border-slate-700/50 rounded-2xl p-8 mb-4 text-center"
+  >
+    <div class="text-3xl font-bold text-white mb-4">{{ pattern.example }}</div>
+    <div class="text-slate-400 text-sm italic">{{ pattern.translation }}</div>
+  </div>
+
+  <!-- Feedback -->
+  <div id="feedback" class="hidden text-center font-semibold mb-4"></div>
+
+  <!-- Input area -->
+  <div class="flex gap-3">
+    <input
+      id="answer-input"
+      type="text"
+      placeholder="Type your answer…"
+      class="flex-1 bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-accent transition-colors"
+      onkeydown="if (event.key === 'Enter') handleSubmit();"
+    />
+    <button
+      id="action-btn"
+      onclick="handleSubmit()"
+      class="bg-accent hover:bg-accent-hover text-white font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
+    >
+      Submit
+    </button>
+  </div>
+
+  <div class="text-slate-500 text-xs mt-3 text-center">
+    Score: {{ score }} / {{ total }}
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="/static/js/grammar.js"></script>
+{% endblock %}

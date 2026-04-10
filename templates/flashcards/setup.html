@@ -1,0 +1,72 @@
+{% extends "base.html" %} {% block title %}Flashcards — Setup{% endblock %} {%
+block content %}
+<div class="max-w-md mx-auto">
+  <div class="mb-8">
+    <a
+      href="/"
+      class="text-slate-400 hover:text-white text-sm transition-colors"
+      >← Back to menu</a
+    >
+  </div>
+  <h1 class="text-3xl font-bold text-white mb-2">🃏 Flashcards</h1>
+  <p class="text-slate-400 mb-8">Choose your difficulty level to begin.</p>
+
+  <form action="/flashcards/start" method="POST" class="space-y-4">
+    <label
+      class="flex items-center gap-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-accent/50 rounded-2xl p-5 cursor-pointer transition-all"
+    >
+      <input
+        type="radio"
+        name="difficulty"
+        value="basic"
+        checked
+        class="accent-accent w-4 h-4"
+      />
+      <div>
+        <div class="text-white font-semibold">Basic</div>
+        <div class="text-slate-400 text-sm">
+          Core vocabulary — greetings, verbs, everyday words
+        </div>
+      </div>
+    </label>
+    <label
+      class="flex items-center gap-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-accent/50 rounded-2xl p-5 cursor-pointer transition-all"
+    >
+      <input
+        type="radio"
+        name="difficulty"
+        value="intermediate"
+        class="accent-accent w-4 h-4"
+      />
+      <div>
+        <div class="text-white font-semibold">Intermediate</div>
+        <div class="text-slate-400 text-sm">
+          Includes all Basic words plus more complex vocabulary
+        </div>
+      </div>
+    </label>
+    <label
+      class="flex items-center gap-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-accent/50 rounded-2xl p-5 cursor-pointer transition-all"
+    >
+      <input
+        type="radio"
+        name="difficulty"
+        value="advanced"
+        class="accent-accent w-4 h-4"
+      />
+      <div>
+        <div class="text-white font-semibold">Advanced</div>
+        <div class="text-slate-400 text-sm">
+          Full vocabulary — all words across every level
+        </div>
+      </div>
+    </label>
+    <button
+      type="submit"
+      class="w-full bg-accent hover:bg-accent-hover text-white font-semibold py-4 rounded-2xl transition-colors mt-6 text-lg"
+    >
+      Start Flashcards →
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Flask Web App",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["flask_app.py"],
+      "port": 5000
+    },
+    {
+      "name": "Tkinter Desktop App (legacy)",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py"],
+      "port": null
+    }
+  ]
+}

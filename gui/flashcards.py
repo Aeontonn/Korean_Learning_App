@@ -9,7 +9,14 @@ class FlashcardMode:
         self.difficulty = difficulty
         
         # Get and shuffle words — cumulative so intermediate includes basic, etc.
-        words = self.app.vocabulary_data.get_words_cumulative(difficulty).copy()
+        word_pool = self.app.vocabulary_data.get_words_cumulative(difficulty)
+
+        # Filter out mastered words, but fall back to the full list for flashcards
+        # so the mode is still usable for review. This matches quiz behavior.
+        mastered = self.app.user_stats.words_mastered
+        unmastered = [w for w in word_pool if w["korean"] not in mastered]
+
+        words = (unmastered if unmastered else word_pool).copy()
         random.shuffle(words)
         
         self.flashcards = words
@@ -68,25 +75,26 @@ class FlashcardMode:
         next_btn.pack(side=tk.LEFT, padx=10)
 
     def display_current_card(self):
-        if self.current_index < len(self.flashcards):
-            word = self.flashcards[self.current_index]
-            text = word["korean"] if self.show_korean else word["english"]
-            
-            self.card_label.config(text=text, fg="black" if self.show_korean else "blue")
-            self.progress_label.config(text=f"Card {self.current_index + 1}/{len(self.flashcards)}")
-        else:
+        # If we've gone past the last card, or the deck was empty, finish.
+        if self.current_index >= len(self.flashcards):
             messagebox.showinfo("Complete!", "You've finished the stack!")
             self.app.show_main_menu()
+            return
+
+        word = self.flashcards[self.current_index]
+        text = word["korean"] if self.show_korean else word["english"]
+        
+        self.card_label.config(text=text, fg="black" if self.show_korean else "blue")
+        self.progress_label.config(text=f"Card {self.current_index + 1}/{len(self.flashcards)}")
     
     def flip_card(self):
         self.show_korean = not self.show_korean
         self.display_current_card()
     
     def next_card(self):
-        if self.current_index < len(self.flashcards) - 1:
-            self.current_index += 1
-            self.show_korean = True
-            self.display_current_card()
+        self.current_index += 1
+        self.show_korean = True
+        self.display_current_card()
     
     def previous_card(self):
         if self.current_index > 0:

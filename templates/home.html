@@ -1,0 +1,143 @@
+{% extends "base.html" %} {% block title %}한국어 학습 — Home{% endblock %} {%
+block content %}
+
+<!-- Hero -->
+<div class="text-center mb-12">
+  <h1 class="text-6xl font-bold text-white mb-3">한국어 학습</h1>
+  <p class="text-slate-400 text-lg">Your Korean language journey</p>
+</div>
+
+<!-- Stats Row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+  <div
+    class="bg-slate-800 rounded-2xl p-5 text-center border border-slate-700/50"
+  >
+    <div class="text-3xl font-bold text-green-400">{{ correct }}</div>
+    <div class="text-slate-400 text-sm mt-1">Correct</div>
+  </div>
+  <div
+    class="bg-slate-800 rounded-2xl p-5 text-center border border-slate-700/50"
+  >
+    <div class="text-3xl font-bold text-red-400">{{ incorrect }}</div>
+    <div class="text-slate-400 text-sm mt-1">Incorrect</div>
+  </div>
+  <div
+    class="bg-slate-800 rounded-2xl p-5 text-center border border-slate-700/50"
+  >
+    <div class="text-3xl font-bold text-accent">{{ streak }}</div>
+    <div class="text-slate-400 text-sm mt-1">Streak 🔥</div>
+  </div>
+  <div
+    class="bg-slate-800 rounded-2xl p-5 text-center border border-slate-700/50"
+  >
+    <div class="text-3xl font-bold text-violet-400">{{ mastered_count }}</div>
+    <div class="text-slate-400 text-sm mt-1">Mastered</div>
+  </div>
+</div>
+
+{% if due_count > 0 %}
+<div
+  class="bg-amber-900/30 border border-amber-600/40 rounded-2xl p-4 mb-8 flex items-center justify-between"
+>
+  <div>
+    <span class="text-amber-400 font-semibold"
+      >{{ due_count }} word{{ 's' if due_count != 1 }} due for review
+      today</span
+    >
+    <span class="text-slate-400 text-sm ml-2"
+      >— your SRS schedule is waiting</span
+    >
+  </div>
+  <a
+    href="/review"
+    class="bg-amber-500 hover:bg-amber-400 text-black text-sm font-bold px-4 py-2 rounded-lg transition-colors"
+    >Review Now</a
+  >
+</div>
+{% endif %}
+
+<!-- Mode Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <!-- Flashcards -->
+  <a
+    href="/flashcards"
+    class="group bg-slate-800 hover:bg-slate-700 border border-slate-700/50 hover:border-accent/50 rounded-2xl p-6 transition-all duration-200"
+  >
+    <div class="flex items-start gap-4">
+      <div class="text-3xl">🃏</div>
+      <div>
+        <div
+          class="text-white font-semibold text-lg group-hover:text-accent/80 transition-colors"
+        >
+          Flashcards
+        </div>
+        <div class="text-slate-400 text-sm mt-1">
+          Flip through vocabulary cards at your own pace. Korean → English and
+          back.
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Quiz -->
+  <a
+    href="/quiz"
+    class="group bg-slate-800 hover:bg-slate-700 border border-slate-700/50 hover:border-accent/50 rounded-2xl p-6 transition-all duration-200"
+  >
+    <div class="flex items-start gap-4">
+      <div class="text-3xl">🧠</div>
+      <div>
+        <div
+          class="text-white font-semibold text-lg group-hover:text-accent/80 transition-colors"
+        >
+          Quiz
+        </div>
+        <div class="text-slate-400 text-sm mt-1">
+          Multiple choice questions with instant feedback. Builds your review
+          queue.
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Grammar -->
+  <a
+    href="/grammar"
+    class="group bg-slate-800 hover:bg-slate-700 border border-slate-700/50 hover:border-accent/50 rounded-2xl p-6 transition-all duration-200"
+  >
+    <div class="flex items-start gap-4">
+      <div class="text-3xl">✏️</div>
+      <div>
+        <div
+          class="text-white font-semibold text-lg group-hover:text-accent/80 transition-colors"
+        >
+          Grammar
+        </div>
+        <div class="text-slate-400 text-sm mt-1">
+          Fill in the blank — particles, endings, and grammar patterns.
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Review -->
+  <a
+    href="/review"
+    class="group bg-slate-800 hover:bg-slate-700 border border-slate-700/50 hover:border-accent/50 rounded-2xl p-6 transition-all duration-200"
+  >
+    <div class="flex items-start gap-4">
+      <div class="text-3xl">📋</div>
+      <div>
+        <div
+          class="text-white font-semibold text-lg group-hover:text-accent/80 transition-colors"
+        >
+          Review
+        </div>
+        <div class="text-slate-400 text-sm mt-1">
+          SRS-scheduled words and your difficult words — all in one drill.
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+{% endblock %}

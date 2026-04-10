@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block title %}Grammar — Setup{% endblock %} {%
+block content %}
+<div class="max-w-md mx-auto">
+  <div class="mb-8">
+    <a
+      href="/"
+      class="text-slate-400 hover:text-white text-sm transition-colors"
+      >← Back to menu</a
+    >
+  </div>
+  <h1 class="text-3xl font-bold text-white mb-2">✏️ Grammar Practice</h1>
+  <p class="text-slate-400 mb-8">
+    Fill in the blanks — particles, endings, and grammar patterns.
+  </p>
+
+  <form action="/grammar/start" method="POST" class="space-y-4">
+    <label
+      class="flex items-center gap-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-accent/50 rounded-2xl p-5 cursor-pointer transition-all"
+    >
+      <input
+        type="radio"
+        name="difficulty"
+        value="basic"
+        checked
+        class="accent-accent w-4 h-4"
+      />
+      <div>
+        <div class="text-white font-semibold">Basic</div>
+        <div class="text-slate-400 text-sm">
+          Core particles: 는, 이, 을, 에, 에서, 하고…
+        </div>
+      </div>
+    </label>
+    <label
+      class="flex items-center gap-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-accent/50 rounded-2xl p-5 cursor-pointer transition-all"
+    >
+      <input
+        type="radio"
+        name="difficulty"
+        value="intermediate"
+        class="accent-accent w-4 h-4"
+      />
+      <div>
+        <div class="text-white font-semibold">Intermediate</div>
+        <div class="text-slate-400 text-sm">
+          Comparisons, continuous tense, suggestions, permissions
+        </div>
+      </div>
+    </label>
+    <label
+      class="flex items-center gap-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-accent/50 rounded-2xl p-5 cursor-pointer transition-all"
+    >
+      <input
+        type="radio"
+        name="difficulty"
+        value="advanced"
+        class="accent-accent w-4 h-4"
+      />
+      <div>
+        <div class="text-white font-semibold">Advanced</div>
+        <div class="text-slate-400 text-sm">
+          Complex structures: 는 것 같아요, 게 되었어요, 본 적이 있어요…
+        </div>
+      </div>
+    </label>
+    <button
+      type="submit"
+      class="w-full bg-accent hover:bg-accent-hover text-white font-semibold py-4 rounded-2xl transition-colors mt-6 text-lg"
+    >
+      Start Grammar →
+    </button>
+  </form>
+</div>
+{% endblock %}

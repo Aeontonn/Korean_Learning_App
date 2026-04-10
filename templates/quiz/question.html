@@ -1,0 +1,68 @@
+{% extends "base.html" %} {% block title %}Quiz — Question {{ index + 1 }}{%
+endblock %} {% block content %}
+<div class="max-w-xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <a
+      href="/"
+      class="text-slate-400 hover:text-white text-sm transition-colors"
+      >← Menu</a
+    >
+    <span id="score-display" class="text-slate-400 text-sm"
+      >Score: {{ score }} / {{ total }}</span
+    >
+  </div>
+
+  <!-- Progress bar -->
+  <div class="w-full bg-slate-800 rounded-full h-1.5 mb-8">
+    <div
+      class="bg-accent h-1.5 rounded-full transition-all"
+      style="width: {{ ((index) / total * 100)|round }}%"
+    ></div>
+  </div>
+
+  <!-- Question card -->
+  <div
+    class="bg-slate-800 border border-slate-700/50 rounded-2xl p-8 mb-6 text-center"
+  >
+    <div class="text-slate-400 text-sm mb-3">
+      What is the English meaning of:
+    </div>
+    <div class="text-5xl font-bold text-white">{{ word.korean }}</div>
+  </div>
+
+  <!-- Feedback -->
+  <div
+    id="feedback"
+    class="hidden text-center font-semibold text-lg mb-4"
+  ></div>
+
+  <!-- Choices -->
+  <div class="space-y-3" id="choices-container">
+    {% for choice in choices %}
+    <button
+      class="btn-choice w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-left px-5 py-4 rounded-xl font-medium"
+      data-choice="{{ choice }}"
+      onclick="submitAnswer(this, '{{ choice }}')"
+    >
+      {{ choice }}
+    </button>
+    {% endfor %}
+  </div>
+
+  <!-- Next button (hidden until answered) -->
+  <button
+    id="next-btn"
+    onclick="goNext()"
+    class="hidden w-full bg-accent hover:bg-accent-hover text-white font-semibold py-4 rounded-xl mt-5 transition-colors text-lg"
+  >
+    Next Question →
+  </button>
+</div>
+
+<script>
+  const correctAnswer = {{ word.english | tojson }};
+</script>
+{% endblock %} {% block scripts %}
+<script src="/static/js/quiz.js"></script>
+{% endblock %}

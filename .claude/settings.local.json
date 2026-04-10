@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh pr create --title 'Flask web app + SRS + colour theme + bug fixes' --body ':*)"
+      "Bash(gh pr create --title 'Flask web app + SRS + colour theme + bug fixes' --body ':*)",
+      "Bash(python3 -c ':*)",
+      "Bash(python -m pytest tests/ -v --tb=short)",
+      "Bash(pip install:*)",
+      "Bash(python -c ':*)"
     ]
   }
 }

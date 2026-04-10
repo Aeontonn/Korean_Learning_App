@@ -3,14 +3,24 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 
 flashcards_bp = Blueprint("flashcards", __name__)
 
+def get_categories(words):
+    """Return sorted list of unique categories from a word pool."""
+    return sorted({w["category"] for w in words if w.get("category")})
+
 @flashcards_bp.route("/")
 def setup():
-    return render_template("flashcards/setup.html")
+    all_words = current_app.vocab_data.get_all_words()
+    categories = get_categories(all_words)
+    return render_template("flashcards/setup.html", categories=categories)
 
 @flashcards_bp.route("/start", methods=["POST"])
 def start():
     difficulty = request.form.get("difficulty", "basic")
+    category = request.form.get("category", "all")
     words = current_app.vocab_data.get_words_cumulative(difficulty)
+    if category and category != "all":
+        filtered = [w for w in words if w.get("category") == category]
+        words = filtered if filtered else words
     # Filter mastered
     mastered = current_app.user_stats.words_mastered
     words = [w for w in words if w["korean"] not in mastered] or words

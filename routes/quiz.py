@@ -4,14 +4,24 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 quiz_bp = Blueprint("quiz", __name__)
 MAX_QUIZ_QUESTIONS = 50
 
+def get_categories(words):
+    """Return sorted list of unique categories from a word pool."""
+    return sorted({w["category"] for w in words if w.get("category")})
+
 @quiz_bp.route("/")
 def setup():
-    return render_template("quiz/setup.html")
+    all_words = current_app.vocab_data.get_all_words()
+    categories = get_categories(all_words)
+    return render_template("quiz/setup.html", categories=categories)
 
 @quiz_bp.route("/start", methods=["POST"])
 def start():
     difficulty = request.form.get("difficulty", "basic")
+    category = request.form.get("category", "all")
     word_pool = current_app.vocab_data.get_words_cumulative(difficulty)
+    if category and category != "all":
+        filtered = [w for w in word_pool if w.get("category") == category]
+        word_pool = filtered if filtered else word_pool
     mastered = current_app.user_stats.words_mastered
     unmastered = [w for w in word_pool if w["korean"] not in mastered]
     words = (unmastered if unmastered else word_pool).copy()

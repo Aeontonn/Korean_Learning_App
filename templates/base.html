@@ -22,10 +22,99 @@
       };
     </script>
     <style>
+      /* ── Base ── */
       body {
         background-color: #272727;
-        color: #f1f5f9;
+        color: #f0ebe3;
       }
+
+      /* ── Slate overrides → warm grey palette ── */
+      .bg-slate-800 {
+        background-color: #333333 !important;
+      }
+      .bg-slate-700 {
+        background-color: #3d3d3d !important;
+      }
+      .hover\:bg-slate-700:hover {
+        background-color: #3d3d3d !important;
+      }
+      .bg-slate-950\/90 {
+        background-color: rgba(20, 18, 15, 0.92) !important;
+      }
+      .border-slate-700 {
+        border-color: #4a4a4a !important;
+      }
+      .border-slate-700\/50 {
+        border-color: rgba(74, 74, 74, 0.5) !important;
+      }
+      .text-slate-400 {
+        color: #b8a898 !important;
+      }
+      .text-slate-500 {
+        color: #8a7a6a !important;
+      }
+
+      /* ── Accent: indigo/violet → Sandy Clay #D4AA7D ── */
+      .bg-indigo-600,
+      .bg-indigo-500,
+      .bg-accent {
+        background-color: #d4aa7d !important;
+        color: #1a1a1a !important;
+      }
+      .hover\:bg-indigo-500:hover,
+      .hover\:bg-indigo-400:hover,
+      .hover\:bg-accent-hover:hover {
+        background-color: #c49a6a !important;
+        color: #1a1a1a !important;
+      }
+      .text-indigo-400,
+      .text-indigo-300,
+      .text-violet-400,
+      .text-accent {
+        color: #d4aa7d !important;
+      }
+      .text-indigo-200 {
+        color: #e8d4b8 !important;
+      }
+
+      .bg-indigo-900\/80 {
+        background-color: rgba(55, 42, 25, 0.85) !important;
+      }
+      .bg-indigo-900\/50 {
+        background-color: rgba(55, 42, 25, 0.5) !important;
+      }
+      .bg-accent\/10 {
+        background-color: rgba(212, 170, 125, 0.1) !important;
+      }
+
+      .border-indigo-500,
+      .border-accent {
+        border-color: #d4aa7d !important;
+      }
+      .border-indigo-500\/40,
+      .border-indigo-500\/30,
+      .border-accent\/40,
+      .border-accent\/30 {
+        border-color: rgba(212, 170, 125, 0.35) !important;
+      }
+      .hover\:border-indigo-500\/50:hover,
+      .hover\:border-accent\/50:hover {
+        border-color: rgba(212, 170, 125, 0.5) !important;
+      }
+
+      .focus\:border-accent:focus {
+        border-color: #d4aa7d !important;
+      }
+      .group:hover .group-hover\:text-indigo-300 {
+        color: #d4aa7d !important;
+      }
+
+      /* ── Nav ── */
+      nav {
+        border-color: rgba(74, 74, 74, 0.4) !important;
+      }
+
+      /* ── Flip card ── */
       .card-scene {
         perspective: 1000px;
       }
@@ -51,6 +140,8 @@
       .flip-card__face--back {
         transform: rotateY(180deg);
       }
+
+      /* ── Quiz answer buttons ── */
       .btn-choice {
         transition:
           background-color 0.2s,
@@ -75,13 +166,17 @@
         border-color: #22c55e !important;
         color: white !important;
       }
+
+      /* ── Grammar input feedback ── */
       input.correct-input {
         border-color: #22c55e !important;
         background-color: #052e16 !important;
+        color: #f0ebe3 !important;
       }
       input.wrong-input {
         border-color: #ef4444 !important;
         background-color: #450a0a !important;
+        color: #f0ebe3 !important;
       }
     </style>
   </head>

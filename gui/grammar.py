@@ -11,7 +11,7 @@ class GrammarMode:
         self.app = app
         self.difficulty = difficulty
         
-        patterns = self.app.grammar_data.get_all_patterns().copy()
+        patterns = self.app.grammar_data.get_patterns_by_difficulty(self.difficulty).copy()
         random.shuffle(patterns)
         
         self.patterns = patterns
@@ -94,8 +94,11 @@ class GrammarMode:
             self.show_question()
             return
 
-        # Check logic
-        if user_answer == pattern["answer"]:
+        # Check logic — normalize whitespace so minor spacing differences don't fail the user
+        def normalize(s):
+            return " ".join(s.split())
+
+        if normalize(user_answer) == normalize(pattern["answer"]):
             self.score += 1
             self.app.user_stats.mark_correct()
             self.feedback_label.config(text="Correct! 🎉", fg="green")

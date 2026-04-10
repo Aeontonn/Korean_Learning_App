@@ -5,36 +5,28 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 
+MAX_QUIZ_QUESTIONS = 50  # Cap per session — never crashes if pool is smaller
+
 class QuizMode:
     def __init__(self, root, app, difficulty):
         self.root = root
         self.app = app
         self.difficulty = difficulty
-        
-        # 1. Determine the pool of words based on the selected difficulty
-        if self.difficulty == "advanced":
-            # Advanced gets the entire dictionary
-            self.word_pool = self.app.vocabulary_data.get_all_words()
+
+        # 1. Determine the pool of words based on the selected difficulty (cumulative)
+        self.word_pool = self.app.vocabulary_data.get_words_cumulative(self.difficulty)
             
-        elif self.difficulty == "intermediate":
-            # Intermediate gets Basic + Intermediate words combined
-            basic_words = self.app.vocabulary_data.get_words("basic")
-            int_words = self.app.vocabulary_data.get_words("intermediate")
-            
-            # This is the list concatenation in action!
-            self.word_pool = basic_words + int_words
-            
-        else:
-            # If it's not advanced or intermediate, it must be basic
-            self.word_pool = self.app.vocabulary_data.get_words("basic")
-            
-        # 2. Create a separate copy for the actual quiz questions so we can shuffle them
-        words = self.word_pool.copy()
+        # 2. Filter out words the user has already mastered
+        mastered = self.app.user_stats.words_mastered
+        unmastered = [w for w in self.word_pool if w["korean"] not in mastered]
+
+        # Fall back to the full pool if the user has mastered everything
+        words = (unmastered if unmastered else self.word_pool).copy()
         
         # 3. Shuffle the final list of questions
         random.shuffle(words)
         
-        self.quiz_words = words[:50]
+        self.quiz_words = words[:MAX_QUIZ_QUESTIONS]
         self.current_index = 0
         self.score = 0
         

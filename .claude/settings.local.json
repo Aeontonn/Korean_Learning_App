@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh pr create --title 'Flask web app + SRS + colour theme + bug fixes' --body ':*)"
+    ]
+  }
+}

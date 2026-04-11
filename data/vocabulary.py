@@ -372,14 +372,11 @@ class VocabularyData:
                 {"korean": "실현하다", "english": "to realize / to actualize", "category": "verbs", "example": "꿈을 실현하기 위해 노력해요. (I make efforts to realize my dream.)"},
             ]
         }
-<<<<<<< HEAD
-=======
         # Normalize: capitalize first letter of all english values
         for words in self.vocabulary.values():
             for word in words:
                 eng = word["english"]
                 word["english"] = eng[:1].upper() + eng[1:]
->>>>>>> 4d97ee7 (Capitalize first letter of English text across all sections)
 
     def get_words(self, difficulty):
         """Get words for a specific difficulty level only"""

@@ -75,26 +75,16 @@ class FlashcardMode:
         next_btn.pack(side=tk.LEFT, padx=10)
 
     def display_current_card(self):
-<<<<<<< HEAD
         # If we've gone past the last card, or the deck was empty, finish.
         if self.current_index >= len(self.flashcards):
-=======
-        if self.current_index < len(self.flashcards):
-            word = self.flashcards[self.current_index]
-            eng = word["english"]
-            text = word["korean"] if self.show_korean else eng[:1].upper() + eng[1:]
-            
-            self.card_label.config(text=text, fg="black" if self.show_korean else "blue")
-            self.progress_label.config(text=f"Card {self.current_index + 1}/{len(self.flashcards)}")
-        else:
->>>>>>> 4d97ee7 (Capitalize first letter of English text across all sections)
             messagebox.showinfo("Complete!", "You've finished the stack!")
             self.app.show_main_menu()
             return
 
         word = self.flashcards[self.current_index]
-        text = word["korean"] if self.show_korean else word["english"]
-        
+        eng = word["english"]
+        text = word["korean"] if self.show_korean else eng[:1].upper() + eng[1:]
+
         self.card_label.config(text=text, fg="black" if self.show_korean else "blue")
         self.progress_label.config(text=f"Card {self.current_index + 1}/{len(self.flashcards)}")
     

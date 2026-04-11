@@ -90,7 +90,8 @@ class ReviewMode:
 
                 tk.Label(row, text=word["korean"], font=("Arial", 14, "bold"),
                          bg="#fff8e1", width=15, anchor="w").pack(side=tk.LEFT, padx=10)
-                tk.Label(row, text=word["english"], font=("Arial", 12),
+                eng = word["english"]
+                tk.Label(row, text=eng[:1].upper() + eng[1:], font=("Arial", 12),
                          bg="#fff8e1").pack(side=tk.LEFT, padx=10)
 
                 overdue = word["days_overdue"]
@@ -109,7 +110,8 @@ class ReviewMode:
 
                 tk.Label(row, text=word["korean"], font=("Arial", 14, "bold"),
                          bg="white", width=15, anchor="w").pack(side=tk.LEFT, padx=10)
-                tk.Label(row, text=word["english"], font=("Arial", 12),
+                eng = word["english"]
+                tk.Label(row, text=eng[:1].upper() + eng[1:], font=("Arial", 12),
                          bg="white").pack(side=tk.LEFT, padx=10)
                 tk.Label(row, text=f"{word['errors']} mistakes", font=("Arial", 10),
                          fg="red", bg="white").pack(side=tk.RIGHT, padx=10)

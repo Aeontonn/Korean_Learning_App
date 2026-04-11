@@ -60,7 +60,8 @@ class GrammarMode:
         tk.Label(self.content_frame, text=f"Fill in the blank:\n\n{pattern['example']}",
                font=("Arial", 18)).pack(pady=15)
                
-        tk.Label(self.content_frame, text=f"Translation: {pattern['translation']}",
+        trans = pattern['translation']
+        tk.Label(self.content_frame, text=f"Translation: {trans[:1].upper() + trans[1:]}",
                font=("Arial", 12), fg="gray").pack(pady=5)
         
         # Input Area

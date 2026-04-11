@@ -92,13 +92,14 @@ class QuizMode:
         self.question_label.config(text=f"What is the English meaning of:\n\n{current_word['korean']}")
         
         # Generate Choices
-        correct_answer = current_word["english"]
+        eng = current_word["english"]
+        correct_answer = eng[:1].upper() + eng[1:]
         
         # Use the pre-loaded pool of words instead of fetching them again
         all_words = self.word_pool
         
         # Filter out the correct answer from potential wrong answers
-        wrong_answers = [w["english"] for w in all_words if w["english"] != correct_answer]
+        wrong_answers = [(w["english"][:1].upper() + w["english"][1:]) for w in all_words if w["english"] != current_word["english"]]
         
         # OPTIMIZATION: Pick exactly 3 wrong answers without shuffling the whole list
         selected_wrong_answers = random.sample(wrong_answers, 3)
